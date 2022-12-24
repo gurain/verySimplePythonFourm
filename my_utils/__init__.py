@@ -5,4 +5,4 @@
 # @File    : my_utils.py
 # @Description :
 
-__all__ = ["mysql_operate", "text_check", "text_input"]
+__all__ = ["mysql_operate", "text_check"]

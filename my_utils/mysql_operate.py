@@ -7,9 +7,6 @@
 import pymysql
 from pymysql import Connection
 
-__all__ = ["posting", "get_all_post", "change_information_by_account", "get_user_id_by_account",
-           "change_pass_word_by_account", "insert_user_table",
-           "delete_data_by_data_id", "check_data_is_exit", "check_user_is_exist", "get_pass_word_by_account"]
 
 HOST = 'localhost'
 PORT = 3306
@@ -226,7 +223,7 @@ def change_information_by_account(account, user_name, gender, age):
     :return: None
     """
     cursor.execute(
-        f"update {USER_TABLE} set user_name='{user_name}',gender='{gender}',age={age} where account = '{account}'")
+        f"update {USER_TABLE} set user_name='{user_name}',gender={gender},age={age} where account = '{account}'")
 
 
 def change_pass_word_by_account(account, pass_word):
@@ -279,7 +276,7 @@ def get_account_by_user_id(user_id):
         return -1
 
 
-def insert_user_table(user_name, account, pass_word, gender='男', age='null'):
+def insert_user_table(user_name, account, pass_word, gender='null', age='null'):
     """
     插入用户信息
     :param user_name:用户名
@@ -289,7 +286,7 @@ def insert_user_table(user_name, account, pass_word, gender='男', age='null'):
     :param age: 年龄
     :return: None
     """
-    cursor.execute(f"insert into {USER_TABLE} values (null,'{user_name}','{account}','{pass_word}','{gender}',{age})")
+    cursor.execute(f"insert into {USER_TABLE} values (null,'{user_name}','{account}','{pass_word}',{gender},{age})")
 
 
 def check_user_is_exist(account):

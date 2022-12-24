@@ -53,10 +53,11 @@ def register(flag: bool = True, text: str = "注册"):
     mysql_operate.insert_user_table(user_name, account, pass_word)
     print("注册成功!")
 
+
 def sign_in():
     """
-    登录
-    :return: None
+    登录账号,普通用户登录成功则返回True,管理员禁止登录,登录则返回False
+    :return: 登录结果
     """
     print("==========登录==========")
     while True:
@@ -64,6 +65,11 @@ def sign_in():
         while True:
             account = input("请输入账号:")
             if text_check.check_account(account):
+                # 判断是否为管理员
+                admin_account,admin_pass_word = mysql_operate.get_admin()
+                if admin_account == account:
+                    print("管理员账号禁止登录!")
+                    return False
                 if mysql_operate.check_user_is_exist(account):
                     break
                 else:
@@ -86,9 +92,10 @@ def sign_in():
             global NOW_ACCOUNT
             NOW_ACCOUNT = account
             print("登录成功!")
-            break
+            return True
         else:
             print("密码错误!请重新登入!")
+
 
 def show_information(flag: bool = True):
     """
@@ -105,11 +112,11 @@ def show_information(flag: bool = True):
         print(f"性别:{gender}")
         print(f"年龄:{age}")
     else:
-        print(f"id:{id}")
         print(f"用户名:{user_name}")
         print(f"账号:{account}")
         print(f"性别:{gender}")
-        print(f"年龄:{age}")
+        print(f"年龄:{age}\n")
+
 
 def change_information():
     """
@@ -145,8 +152,9 @@ def change_information():
             print("年龄不合法!请重新输入!")
             continue
     # 修改用户名、性别、年龄
-    mysql_operate.change_information_by_account(NOW_ACCOUNT, user_name, gender, age)
+    mysql_operate.change_information_by_account(NOW_ACCOUNT, user_name, f"'{gender}'", age)
     print("修改成功!")
+
 
 def change_pass_word():
     """
@@ -171,6 +179,7 @@ def change_pass_word():
             print("密码不合法!请重新输入!")
             continue
 
+
 def checking_code(flag):
     while True:
         if flag == 'n':
@@ -183,6 +192,7 @@ def checking_code(flag):
             break
         else:
             print("验证码错误，请重新输入！")
+
 
 def post(flag: bool = True):
     """
@@ -231,6 +241,7 @@ def post(flag: bool = True):
         mysql_operate.posting("admin", title, content)
         print("新增成功!")
 
+
 def show_all_post(flag: bool = True):
     """
     查看全部帖子
@@ -245,6 +256,7 @@ def show_all_post(flag: bool = True):
     else:
         print("论坛内暂无帖子!")
         return False
+
 
 def delete_my_post():
     """
@@ -281,6 +293,7 @@ def delete_my_post():
         else:
             break
 
+
 def show_my_post(flag: bool = True):
     """
     展示我的帖子
@@ -297,6 +310,7 @@ def show_my_post(flag: bool = True):
                 f"帖子id:{i[0]}\n帖子标题:{i[1]}\n用户名:{i[2]}\n帖子内容:{i[4]}\n发帖时间:{i[5]}\n")
     else:
         print("你还没有发过帖子呢,快去发布吧!")
+
 
 def forum_center():
     """
@@ -329,6 +343,7 @@ def forum_center():
         else:
             print("指令错误,请重新输入!")
 
+
 def get_check_code(num: int = 4):
     """
     获取特定位数的验证码,并返回，默认是四位数
@@ -345,7 +360,8 @@ def get_check_code(num: int = 4):
         code += word_stock[rand_num - 1]
     return code
 
-def set_system_config(title: str, command: int, operate_object:str):
+
+def set_system_config(title: str, command: int, operate_object: str):
     """
     提供两种模式，一种是设置位数，第二种是设置是否开启
     :param title: 显示的标题
@@ -379,6 +395,7 @@ def set_system_config(title: str, command: int, operate_object:str):
             else:
                 print("指令不合法，请重新输入！")
 
+
 def check_code_setting():
     """
     验证码设置页面
@@ -405,6 +422,7 @@ def check_code_setting():
         else:
             print("指令不合法，请重新输入！")
 
+
 def show_all_user(flag: bool = True):
     """
     查看全部用户
@@ -418,6 +436,7 @@ def show_all_user(flag: bool = True):
             print(f"用户id:{i[0]}\n用户名:{i[1]}\n账号:{i[2]}\n用户密码:{i[3]}\n用户性别:{i[4]}\n用户年龄:{i[5]}\n")
     else:
         print("论坛内暂无用户!")
+
 
 def change_entry_word():
     """
@@ -435,6 +454,7 @@ def change_entry_word():
         else:
             print("登录口令不合法,请重新输入!")
 
+
 def show_all_system_config():
     """
     查看全部的系统配置
@@ -446,6 +466,7 @@ def show_all_system_config():
         print(f"管理账号:{i[0]}\t管理密码:{i[1]}\t管理登录口令:{i[7]}")
         print(
             f"管理员登录验证码:{i[2]}\t用户注册登录验证码:{i[3]}\t用户登录验证码:{i[4]}\t用户删帖验证码:{i[5]}\t验证码位数:{i[6]}")
+
 
 def delete_user():
     """
@@ -466,6 +487,7 @@ def delete_user():
                 print("用户不存在,请重新输入!")
         except:
             print("数据不合法,请重新输入!")
+
 
 def delete_post():
     """
@@ -488,6 +510,7 @@ def delete_post():
         except:
             print("数据不合法,请重新输入!")
 
+
 def change_admin_account_and_pass_word():
     print("==========修改管理员账号密码==========")
     while True:
@@ -504,20 +527,18 @@ def change_admin_account_and_pass_word():
         else:
             print("新账号不合法!请重新输入!")
 
+
 def admin_control_center():
     """
     管理员控制中心
     :return:
     """
-    # TODO 1.删除用户
-    # TODO 2.新增帖子
-    # TODO 3.删除帖子
     while True:
         print("==========后台管理==========")
-        print("1.增加用户\t5.查看全部用户\t9.修改管理员账号密码")
+        print("1.增加用户\t5.查看全部用户\t9.修改管理员账号密码\t13.返回首页")
         print("2.删除用户\t6.查看全部帖子\t10.查看全部系统配置")
-        print("3.增加帖子\t7.修改登录口令\t11.返回首页")
-        print("4.删除帖子\t8.验证码设置")
+        print("3.增加帖子\t7.修改登录口令\t11.下载全部用户数据")
+        print("4.删除帖子\t8.验证码设置\t12.下载全部帖子数据")
         command = input("请输入您的指令:")
         if command == "1":
             register(False, "新增用户")
@@ -540,9 +561,14 @@ def admin_control_center():
         elif command == "10":
             show_all_system_config()
         elif command == "11":
+            download_user_data()
+        elif command == "12":
+            download_post_data()
+        elif command == "16":
             break
         else:
             print("指令错误,请重新输入!")
+
 
 def admin_sign_in():
     """
@@ -578,6 +604,7 @@ def admin_sign_in():
     checking_code(mysql_operate.get_system_config(True)["ADMIN_REGISTER_CODE_SETTING"])
     print(f"{admin_account}管理员，登录成功!")
 
+
 def main():
     """
     首页
@@ -591,8 +618,9 @@ def main():
         print("3.退出")
         command = input("请输入您的指令:")
         if command == "1":
-            sign_in()
-            forum_center()
+            flag =  sign_in()
+            if flag:
+                forum_center()
         elif command == "2":
             register()
         elif command == "3":
@@ -602,6 +630,40 @@ def main():
             admin_control_center()
         else:
             print("指令错误,请重新输入!")
+
+def download_post_data():
+    """
+    下载帖子数据
+    :return:
+    """
+    print("==========下载帖子数据==========")
+    file_name =  input("请输入你需要保存的文件名(存在同名文件将会覆盖):")
+    while True:
+        if text_check.check_file_name(file_name):
+            with open(file_name+".txt",mode='w',encoding="UTF-8") as f:
+                f.write("帖子id,标题,发布者,发布者id,内容,发布时间\n")
+                post_tuple = mysql_operate.get_all_post()
+                for i in post_tuple:
+                    f.write(f"{i[0]},{i[1]},{i[2]},{i[3]},{i[4]},{i[5]}\n")
+                print("下载成功!")
+                break
+        else:
+            print("文件名不合法,请重新输入!")
+
+def download_user_data():
+    print("==========下载用户数据==========")
+    file_name =  input("请输入你需要保存的文件名(存在同名文件将会覆盖):")
+    while True:
+        if text_check.check_file_name(file_name):
+            with open(file_name+".txt",mode='w',encoding="UTF-8") as f:
+                f.write("用户id,用户名,账号,用户密码,性别,年龄\n")
+                post_tuple = mysql_operate.get_all_user()
+                for i in post_tuple:
+                    f.write(f"{i[0]},{i[1]},{i[2]},{i[3]},{i[4]},{i[5]}\n")
+                print("下载成功!")
+                break
+        else:
+            print("文件名不合法,请重新输入!")
 
 if __name__ == '__main__':
     # 初始化系统

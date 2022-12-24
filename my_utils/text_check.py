@@ -5,10 +5,9 @@
 # @File    : text_check.py
 # @Description : 利用正则表达式对特定文本进行检验
 
-__all__ = ["check_data_id", "check_title",
-           "check_user_name", "check_account", "check_age", "check_gender", "check_content", "check_pass_word"]
 
 import re
+
 
 def check_user_name(text: str):
     """
@@ -21,6 +20,18 @@ def check_user_name(text: str):
     else:
         return False
 
+def check_file_name(text: str):
+    """
+    检验文件名是否合法
+    :param text: 文件名
+    :return: 不合法返回False , 合法返回True
+    """
+    if re.search(r"^[\u4E00-\u9FA5A-Za-z0-9_]+$", text):
+        return True
+    else:
+        return False
+
+
 def check_account(text: str):
     """
     检验账号是否合法
@@ -31,6 +42,7 @@ def check_account(text: str):
         return True
     else:
         return False
+
 
 def check_pass_word(text: str):
     """
@@ -43,6 +55,7 @@ def check_pass_word(text: str):
     else:
         return False
 
+
 def check_admin_entry_word(text: str):
     """
     检验管理员登录口林是否合法：
@@ -53,6 +66,7 @@ def check_admin_entry_word(text: str):
         return True
     else:
         return False
+
 
 def check_age(text: str):
     """
@@ -69,6 +83,7 @@ def check_age(text: str):
     except ValueError:
         return False
 
+
 def check_code_number(text: str):
     """
     检验验证码是否合法：
@@ -84,6 +99,7 @@ def check_code_number(text: str):
     except ValueError:
         return False
 
+
 def check_gender(text: str):
     """
     检验性别是否合法：
@@ -94,6 +110,7 @@ def check_gender(text: str):
         return True
     else:
         return False
+
 
 def check_title(text: str):
     """
@@ -106,6 +123,7 @@ def check_title(text: str):
     else:
         return False
 
+
 def check_content(text: str):
     """
     检验帖子内容是否黑发
@@ -116,6 +134,7 @@ def check_content(text: str):
         return True
     else:
         return False
+
 
 def check_data_id(text: str):
     """
