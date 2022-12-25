@@ -20,6 +20,7 @@ def check_user_name(text: str):
     else:
         return False
 
+
 def check_file_name(text: str):
     """
     检验文件名是否合法
@@ -143,6 +144,9 @@ def check_data_id(text: str):
     :return: 合法返回True,不合法返回False
     """
     if re.search("^\\d+$", text):
-        return True
+        if int(text) > 0:
+            return True
+        else:
+            return True
     else:
         return False

@@ -1,6 +1,6 @@
 ## 前言
 
-forum.py为主程序，mysql_operate.py负责数据库操作，text_check.py负责检查输入的文本，程序开始会初始化，这里的建表语句看看就行，**数据库名是python_forum，这个可能需要自己手动建立一下**，我以后有其他解决方法可能会改善下（可能我以后都不管这个项目了哈哈，这个项目写了我两天，挺累的）。
+forum.py为主程序，mysql_operate.py负责数据库操作，text_check.py负责检查输入的文本，程序开始会初始化，这里的建表语句看看就行，**数据库名是python_forum，这个可能需要自己手动建立一下**，以后闲的话可能会改善下（可能我以后都不管这个项目了哈哈，这个项目写了我两天，挺累的），最后也是虚心接受各位大佬的建议（可能大佬们都不屑于给我的代码哈哈）。
 
 这个系统很多思路都是基于我前一个java小论坛的项目，但同时也可以看到有需要优化的地方，有不足之处也欢迎大家指出（当然我也知道没人看我的项目的哈哈）！
 
@@ -40,11 +40,12 @@ forum.py为主程序，mysql_operate.py负责数据库操作，text_check.py负�
 
 
 
-**v2.2版本**
+**v2.2版本(最终版)**
 
-1. 修复了删帖会重复提示的小bug（其实是我今天准备交作业的时候发现的）
-2. 修复管理员无效的指令
+1. 修复了删帖会重复提示的BUG
+2. 修复管理员无效指令的BUG
 3. 修复论坛中有帖子的用户无法删除的BUG，并且调整了建表语句
+4. 修复管理员新增帖子报错的BUG
 
 
 
@@ -92,7 +93,7 @@ create table if not exists data_table (
   post_user_id int not null comment  '发帖人id号',
   content varchar(300) not null comment '内容',
   post_time datetime not null  comment '发布时间',
-  constraint data_user_fk foreign key (post_user_id) references user_table(user_id)
+  constraint data_user_fk foreign key (post_user_id) references user_table(user_id) on delete  cascade
 )
 ```
 

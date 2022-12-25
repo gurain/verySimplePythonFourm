@@ -33,7 +33,7 @@ create table if not exists data_table (
   post_user_id int not null comment  '发帖人id号',
   content varchar(300) not null comment '内容',
   post_time datetime not null  comment '发布时间',
-  constraint data_user_fk foreign key (post_user_id) references user_table(user_id)
+  constraint data_user_fk foreign key (post_user_id) references user_table(user_id) on delete  cascade
 )
 """
 CREATE_SYSTEM_CONFIG_TABLE_SENTENCE = """
@@ -335,13 +335,5 @@ def set_system_config(operate_object: str, values: str):
 
 
 if __name__ == '__main__':
-    # insert_user_table("测试","a12","123")
-    # print(check_user_is_exist("test"))
-    # get_pass_word_by_account("test")
-    # print(get_information_by_account("test"))
-    # print(get_all_post("asdsadas"))
-    # print(get_admin())
-    # set_check_code_number(2)
-    # print(get_system_config(True))
     cursor.close()
     conn.close()

@@ -238,7 +238,8 @@ def post(flag: bool = True):
             else:
                 print("标题不合法!请重新输入!")
                 continue
-        mysql_operate.posting("admin", title, content)
+        admin_account,admin_pass_word = mysql_operate.get_admin()
+        mysql_operate.posting(admin_account, title, content)
         print("新增成功!")
 
 
@@ -599,7 +600,7 @@ def admin_sign_in():
             else:
                 print("密码不正确!")
         else:
-            print("账号不合法!请重新输入!")
+            print("密码不合法!请重新输入!")
             continue
     checking_code(mysql_operate.get_system_config(True)["ADMIN_REGISTER_CODE_SETTING"])
     print(f"{admin_account}管理员，登录成功!")
