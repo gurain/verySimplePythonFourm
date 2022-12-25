@@ -66,7 +66,7 @@ def sign_in():
             account = input("请输入账号:")
             if text_check.check_account(account):
                 # 判断是否为管理员
-                admin_account,admin_pass_word = mysql_operate.get_admin()
+                admin_account, admin_pass_word = mysql_operate.get_admin()
                 if admin_account == account:
                     print("管理员账号禁止登录!")
                     return False
@@ -277,16 +277,13 @@ def delete_my_post():
                 # 检查删除的是否为当前账户的帖子
                 for i in my_post_tuple:
                     if int(data_id) == i[0]:
-                        print(i[0])
                         # 删除id,是否成功
                         if mysql_operate.delete_data_by_data_id(data_id):
                             checking_code(mysql_operate.get_system_config(True)["DELETE_POST_CODE_SETTING"])
                             print(f"{data_id}号帖子删除成功!")
                             return
-
-                    else:
-                        print(f"{data_id}号帖子不存在,请重新输入")
-                        break
+                print("帖子id不存在,请重新输入!")
+                continue
             else:
                 print("帖子id不合法!请重新输入!")
                 continue
@@ -478,6 +475,9 @@ def delete_user():
     while True:
         try:
             user_id = int(input("请输入你需要删除的用户id:"))
+            if user_id == 1:
+                print("管理员禁止删除!")
+                break
             account = mysql_operate.get_account_by_user_id(user_id)
             if mysql_operate.check_user_is_exist(account):
                 mysql_operate.delete_user_by_user_id(user_id)
@@ -485,7 +485,7 @@ def delete_user():
                 break
             else:
                 print("用户不存在,请重新输入!")
-        except:
+        except ValueError:
             print("数据不合法,请重新输入!")
 
 
@@ -564,7 +564,7 @@ def admin_control_center():
             download_user_data()
         elif command == "12":
             download_post_data()
-        elif command == "16":
+        elif command == "13":
             break
         else:
             print("指令错误,请重新输入!")
@@ -618,7 +618,7 @@ def main():
         print("3.退出")
         command = input("请输入您的指令:")
         if command == "1":
-            flag =  sign_in()
+            flag = sign_in()
             if flag:
                 forum_center()
         elif command == "2":
@@ -631,16 +631,17 @@ def main():
         else:
             print("指令错误,请重新输入!")
 
+
 def download_post_data():
     """
     下载帖子数据
     :return:
     """
     print("==========下载帖子数据==========")
-    file_name =  input("请输入你需要保存的文件名(存在同名文件将会覆盖):")
+    file_name = input("请输入你需要保存的文件名(存在同名文件将会覆盖):")
     while True:
         if text_check.check_file_name(file_name):
-            with open(file_name+".txt",mode='w',encoding="UTF-8") as f:
+            with open(file_name + ".txt", mode='w', encoding="UTF-8") as f:
                 f.write("帖子id,标题,发布者,发布者id,内容,发布时间\n")
                 post_tuple = mysql_operate.get_all_post()
                 for i in post_tuple:
@@ -650,12 +651,13 @@ def download_post_data():
         else:
             print("文件名不合法,请重新输入!")
 
+
 def download_user_data():
     print("==========下载用户数据==========")
-    file_name =  input("请输入你需要保存的文件名(存在同名文件将会覆盖):")
+    file_name = input("请输入你需要保存的文件名(存在同名文件将会覆盖):")
     while True:
         if text_check.check_file_name(file_name):
-            with open(file_name+".txt",mode='w',encoding="UTF-8") as f:
+            with open(file_name + ".txt", mode='w', encoding="UTF-8") as f:
                 f.write("用户id,用户名,账号,用户密码,性别,年龄\n")
                 post_tuple = mysql_operate.get_all_user()
                 for i in post_tuple:
@@ -664,6 +666,7 @@ def download_user_data():
                 break
         else:
             print("文件名不合法,请重新输入!")
+
 
 if __name__ == '__main__':
     # 初始化系统
