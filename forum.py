@@ -281,12 +281,12 @@ def delete_my_post():
                         # 删除id,是否成功
                         if mysql_operate.delete_data_by_data_id(data_id):
                             checking_code(mysql_operate.get_system_config(True)["DELETE_POST_CODE_SETTING"])
-                            print(f"{data_id}号帖子删除成功")
+                            print(f"{data_id}号帖子删除成功!")
                             return
 
                     else:
                         print(f"{data_id}号帖子不存在,请重新输入")
-                        continue
+                        break
             else:
                 print("帖子id不合法!请重新输入!")
                 continue

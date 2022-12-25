@@ -40,6 +40,14 @@ forum.py为主程序，mysql_operate.py负责数据库操作，text_check.py负�
 
 
 
+**v2.2版本**
+
+1. 修复了删帖会重复提示的小bug（其实是我今天准备交作业的时候发现的）
+
+
+
+
+
 ## 用户表
 
 - 用户id：user_id
